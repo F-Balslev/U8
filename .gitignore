@@ -1,0 +1,4 @@
+data/
+venv_u8/
+.env
+**/*.pyc
