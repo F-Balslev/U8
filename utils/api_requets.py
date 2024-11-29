@@ -39,7 +39,7 @@ def filter_utf16(entry: dict):
     return True
 
 
-def clean_data(users: list[dict]):
+def clean_data(users: list[dict]) -> list[User]:
     user_id = 0
     res = []
 
@@ -58,7 +58,7 @@ def clean_data(users: list[dict]):
     return res
 
 
-def get_api_request(url: str, n_results=3000, seed="southwind") -> list[dict]:
+def get_api_request(url: str, n_results=3000, seed="southwind") -> list[User]:
     """
     Get user data of 2000 "people" from api.
     Users whose name contain utf-16 encoded characters are discarded.
@@ -81,14 +81,14 @@ def get_api_request(url: str, n_results=3000, seed="southwind") -> list[dict]:
         print("API responded with code {reponse.status_code}")
 
         if user_wants_to_try_again():
-            return get_api_request(url, n_results)
+            return get_api_request(url, n_results, seed)
         else:
             return None
 
     data = clean_data(response.json()["results"])
 
     if len(data) < 2000:
-        print(f"Not enought users found. Expected 2000 found {len(data)}.")
+        print(f"Not enought users found. Expected 2000, found {len(data)}.")
         exit()
 
     return data[:2000]
